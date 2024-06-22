@@ -3,6 +3,7 @@ package com.example.simple_user_api.controller;
 import com.example.simple_user_api.exception.UserNotFoundException;
 import com.example.simple_user_api.model.User;
 import com.example.simple_user_api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserController {
   }
 
   @PostMapping
-  public void deleteUser(@RequestBody User user) {
+  public void addUser(@Valid @RequestBody User user) {
     userService.addUser(user);
   }
 
@@ -40,7 +41,7 @@ public class UserController {
   }
 
   @PutMapping("{id}")
-  public void updateUser(@PathVariable long id, @RequestBody User user) {
+  public void updateUser(@PathVariable long id, @Valid @RequestBody User user) {
     userService.updateUser(id, user);
   }
 }
