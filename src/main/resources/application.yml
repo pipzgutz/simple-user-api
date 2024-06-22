@@ -1,3 +1,5 @@
+simple-user:
+  from-email: hello@example.com
 spring:
   application:
     name: simple-user-api
@@ -5,6 +7,17 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: ${MAILTRAP_USERNAME}
+    password: ${MAILTRAP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 springdoc:
   api-docs:
     path: /api-docs

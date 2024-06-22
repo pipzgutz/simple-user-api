@@ -5,7 +5,16 @@ New users can receive email notifications about their registration.
 # Developers Notes
 To access the swagger UI just go to http://localhost:8080/swagger
 
-## Running the Project in Docker
+# Setting Up Mailtrap
+
+This project uses mail trap to test sending emails.
+
+1. Create an account in https://mailtrap.io
+2. After logging in, from the Home page click on Email Testing and check the details on how to integrate using SMTP.
+3. Copy the username and password and create environment the variables MAILTRAP_USERNAME and MAILTRAP_PASSWORD respectively.
+
+## Building and Running the Project in Docker
+
 Before running the Docker commands, make sure to create an executable jar file
 
 `
@@ -36,11 +45,11 @@ Alternatively, you can run it using the docker-compose.yml provided.
 After building the Docker image run the following command:
 
 `
-docker-compose -f docker-compose.yml up -d
+docker-compose up -d
 `
 
 To stop and delete the container run the following command:
 
 `
-docker-compose -f docker-compose.yml down
+docker-compose down
 `

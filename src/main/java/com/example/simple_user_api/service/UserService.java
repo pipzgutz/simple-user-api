@@ -2,6 +2,7 @@ package com.example.simple_user_api.service;
 
 import com.example.simple_user_api.model.User;
 import com.example.simple_user_api.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
 @Service
 public class UserService {
   private final UserRepository userRepository;
+  private final EmailService emailService;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, EmailService emailService) {
     this.userRepository = userRepository;
+    this.emailService = emailService;
   }
 
   public User getUserById(long id) {
@@ -22,8 +25,18 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User addUser(User user) {
-    return userRepository.save(user);
+  public void addUser(User user) {
+    userRepository.save(user);
+    String subject = "Registration Successful";
+    String htmlContent = """
+      <h1>Simple Email</h1>
+      <p>Hello from ABC Company!</p>
+      """;
+    try {
+      emailService.sendSimpleEmail(user.getEmail(), subject, htmlContent);
+    } catch (MessagingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public void deleteUser(long id) {
