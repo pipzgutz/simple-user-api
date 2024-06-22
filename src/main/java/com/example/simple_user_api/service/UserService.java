@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,8 +18,8 @@ public class UserService {
     this.emailService = emailService;
   }
 
-  public User getUserById(long id) {
-    return userRepository.findById(id).orElse(null);
+  public Optional<User> getUserById(long id) {
+    return userRepository.findById(id);
   }
 
   public List<User> getUsers() {

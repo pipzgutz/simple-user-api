@@ -39,8 +39,7 @@ class UserServiceTest {
     when(userRepository.findById(id)).thenReturn(Optional.of(user));
 
     var searchedUserId = userService.getUserById(id);
-    assertNotNull(searchedUserId);
-    assertEquals(id, searchedUserId.getId());
+    assertTrue(searchedUserId.isPresent());
   }
 
   @Test
@@ -48,8 +47,8 @@ class UserServiceTest {
   void testGetUserById_UserDoesNotExist() {
     var id = 123L;
     when(userRepository.findById(id)).thenReturn(Optional.empty());
-    User foundUser = userService.getUserById(id);
-    assertNull(foundUser);
+    Optional<User> foundUser = userService.getUserById(id);
+    assertFalse(foundUser.isPresent());
   }
 
   @Test

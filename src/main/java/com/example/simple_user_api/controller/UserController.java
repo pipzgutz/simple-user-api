@@ -1,5 +1,6 @@
 package com.example.simple_user_api.controller;
 
+import com.example.simple_user_api.exception.UserNotFoundException;
 import com.example.simple_user_api.model.User;
 import com.example.simple_user_api.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,10 @@ public class UserController {
 
   @GetMapping("{id}")
   public User getUser(@PathVariable long id) {
-    return userService.getUserById(id);
+    return userService
+      .getUserById(id)
+      .orElseThrow(() ->
+        new UserNotFoundException(String.format("User not found with id: %d", id)));
   }
 
   @PostMapping

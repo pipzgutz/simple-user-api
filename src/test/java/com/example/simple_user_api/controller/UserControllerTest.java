@@ -14,12 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(UserController.class)
@@ -57,11 +57,21 @@ class UserControllerTest {
 
   @Test
   void testGetUser() throws Exception {
-    when(userService.getUserById(anyLong())).thenReturn(user);
+    when(userService.getUserById(anyLong())).thenReturn(Optional.of(user));
 
     mockMvc.perform(get("/api/user/{id}", user.getId()))
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.firstName").value(user.getFirstName()));
+  }
+
+  @Test
+  void testGetUser_UserNotFound() throws Exception {
+    var userId = 1L;
+    when(userService.getUserById(userId)).thenReturn(Optional.empty());
+
+    mockMvc.perform(get("/api/user/{id}", userId))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.message").value("User not found with id: 1"));
   }
 
   @Test
