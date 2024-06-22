@@ -4,3 +4,43 @@ New users can receive email notifications about their registration.
 
 # Developers Notes
 To access the swagger UI just go to http://localhost:8080/swagger
+
+## Running the Project in Docker
+Before running the Docker commands, make sure to create an executable jar file
+
+`
+mvn clean package
+`
+
+Run the following command
+
+`
+docker build -t simpleuserapi:1.0 .
+`
+
+Creating a Docker container and running it and exposing the port
+
+`
+docker run --name simpleuserapi -p 8080:8080 simpleuserapi:1.0   
+`
+
+Do not forget to delete the container if it's not needed anymore
+
+`
+docker rm -f simpleuserapi
+`
+
+### Alternative Way of Running
+Alternatively, you can run it using the docker-compose.yml provided.
+
+After building the Docker image run the following command:
+
+`
+docker-compose -f docker-compose.yml up -d
+`
+
+To stop and delete the container run the following command:
+
+`
+docker-compose -f docker-compose.yml down
+`
